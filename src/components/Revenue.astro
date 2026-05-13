@@ -1,0 +1,60 @@
+<section class="revenue" id="revenue">
+  <div class="container revenue__grid">
+    <div>
+      <span class="eyebrow" style="color:var(--gold-soft);">The math is the easy part</span>
+      <h2 style="margin-top:14px;">Turn nightly trash into <span class="scr">predictable NOI.</span></h2>
+      <p>A doorstep valet program is the highest-ROI amenity you can add. No capital outlay, no staff to hire, no equipment to maintain. The revenue lift flows straight to NOI.</p>
+      <ul class="revenue__list">
+        <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span> No capital expense — we provide bins, labor, insurance.</li>
+        <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span> Bill residents directly on your existing ledger.</li>
+        <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span> Margin in the $8–$15 per unit per month range.</li>
+        <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span> Cleaner property, fewer hallway-trash complaints.</li>
+      </ul>
+    </div>
+
+    <div class="calc">
+      <div class="calc__head">
+        <h3>Estimate your annual lift</h3>
+        <span>Live</span>
+      </div>
+      <div class="calc__field">
+        <label>Number of units <span class="val" id="unitsLabel">120</span></label>
+        <input type="range" min="24" max="500" step="4" value="120" class="calc__range" id="units" />
+      </div>
+      <div class="calc__field">
+        <label>Margin per unit / month <span class="val" id="marginLabel">$10</span></label>
+        <input type="range" min="5" max="18" step="1" value="10" class="calc__range" id="margin" />
+      </div>
+      <div class="calc__result">
+        <div class="lbl">
+          Estimated annual revenue lift
+          <small>Margin × Units × 12 months</small>
+        </div>
+        <div class="amt" id="lift">$14,400<small> /yr</small></div>
+      </div>
+      <p class="calc__foot">Illustrative only. Actual margin depends on resident pricing, take-rate, and contract terms.</p>
+    </div>
+  </div>
+</section>
+
+<script>
+  const units = document.getElementById('units') as HTMLInputElement;
+  const margin = document.getElementById('margin') as HTMLInputElement;
+  const uL = document.getElementById('unitsLabel');
+  const mL = document.getElementById('marginLabel');
+  const liftEl = document.getElementById('lift');
+
+  if (units && margin && uL && mL && liftEl) {
+    const fmt = (n: number) => '$' + n.toLocaleString();
+    const recalc = () => {
+      const u = parseInt(units.value, 10);
+      const m = parseInt(margin.value, 10);
+      uL.textContent = String(u);
+      mL.textContent = '$' + m;
+      liftEl.innerHTML = fmt(u * m * 12) + '<small> /yr</small>';
+    };
+    units.addEventListener('input', recalc);
+    margin.addEventListener('input', recalc);
+    recalc();
+  }
+</script>

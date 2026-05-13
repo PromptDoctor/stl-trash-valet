@@ -1,0 +1,148 @@
+<section class="contact" id="contact">
+  <div class="container contact__grid">
+    <div class="contact__head">
+      <span class="eyebrow" style="color:var(--gold-soft);">Get a proposal</span>
+      <h2 style="margin-top:14px;">Let's run the <span class="scr">numbers</span> for your property.</h2>
+      <p>Tell us a little about the community and we'll send a custom revenue estimate within one business day. No pressure, no boilerplate.</p>
+
+      <ul class="contact__info">
+        <li>
+          <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.86 19.86 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.86 19.86 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92Z"/></svg></span>
+          <a href="tel:3147232893">
+            <div class="lab">Call us direct</div>
+            <div class="val">(314) 723-2893</div>
+          </a>
+        </li>
+        <li>
+          <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg></span>
+          <a href="mailto:sales@stltrashvalet.com">
+            <div class="lab">Email sales</div>
+            <div class="val">sales@stltrashvalet.com</div>
+          </a>
+        </li>
+        <li>
+          <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></span>
+          <div>
+            <div class="lab">Office hours</div>
+            <div class="val">Mon–Fri · 8a – 6p CT</div>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <form class="form" id="contactForm" novalidate>
+      <div class="form__body">
+        <h3>Request a property proposal</h3>
+        <p class="form__sub">Takes about 60 seconds. Owner-reviewed within one business day.</p>
+
+        <div class="form__row">
+          <div class="form__field" data-field="name">
+            <label>Your name <span class="req">*</span></label>
+            <input type="text" name="name" autocomplete="name" />
+            <div class="err-msg">Please enter your name.</div>
+          </div>
+          <div class="form__field" data-field="role">
+            <label>Role</label>
+            <select name="role">
+              <option value="">Select…</option>
+              <option>Property Manager</option>
+              <option>Regional Manager</option>
+              <option>Owner / Asset Manager</option>
+              <option>Maintenance Director</option>
+              <option>Other</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form__row">
+          <div class="form__field" data-field="email">
+            <label>Work email <span class="req">*</span></label>
+            <input type="email" name="email" autocomplete="email" />
+            <div class="err-msg">Please enter a valid email.</div>
+          </div>
+          <div class="form__field" data-field="phone">
+            <label>Phone</label>
+            <input type="tel" name="phone" autocomplete="tel" placeholder="(314) 555-0123" />
+          </div>
+        </div>
+
+        <div class="form__row">
+          <div class="form__field" data-field="property">
+            <label>Property name <span class="req">*</span></label>
+            <input type="text" name="property" />
+            <div class="err-msg">Tell us the property name.</div>
+          </div>
+          <div class="form__field" data-field="units">
+            <label>Unit count <span class="req">*</span></label>
+            <select name="units">
+              <option value="">Select…</option>
+              <option>Under 50 units</option>
+              <option>50 – 100 units</option>
+              <option>100 – 200 units</option>
+              <option>200 – 350 units</option>
+              <option>350+ units</option>
+            </select>
+            <div class="err-msg">Please pick a range.</div>
+          </div>
+        </div>
+
+        <div class="form__field" style="margin-bottom:8px;" data-field="message">
+          <label>Anything we should know? <span style="text-transform:none; letter-spacing:0; color:var(--muted); font-weight:500;">(optional)</span></label>
+          <textarea name="message" placeholder="Existing valet contract, timeline, special access notes, etc."></textarea>
+        </div>
+
+        <button type="submit" class="form__submit">
+          Send my proposal request
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+        </button>
+        <p class="form__legal">We'll never share your details. One follow-up email per request, max.</p>
+      </div>
+
+      <div class="form__success" role="status" aria-live="polite">
+        <div class="ic">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+        </div>
+        <h4>Thanks — we've got it.</h4>
+        <p>Your request is in. We'll review and send a tailored proposal within one business day. Need to talk sooner? Call <strong>(314) 723-2893</strong>.</p>
+      </div>
+    </form>
+  </div>
+</section>
+
+<script>
+  const form = document.getElementById('contactForm') as HTMLFormElement | null;
+  if (form) {
+    const requiredFields = ['name', 'email', 'property', 'units'];
+
+    const validate = (key: string) => {
+      const wrap = form.querySelector(`[data-field="${key}"]`) as HTMLElement | null;
+      const inp = wrap?.querySelector('input, select, textarea') as HTMLInputElement | null;
+      if (!wrap || !inp) return true;
+      let ok = inp.value.trim().length > 0;
+      if (key === 'email') ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(inp.value.trim());
+      wrap.classList.toggle('err', !ok);
+      return ok;
+    };
+
+    requiredFields.forEach(k => {
+      const wrap = form.querySelector(`[data-field="${k}"]`);
+      const inp = wrap?.querySelector('input, select, textarea') as HTMLInputElement | null;
+      if (!inp) return;
+      inp.addEventListener('blur', () => validate(k));
+      inp.addEventListener('input', () => { if (wrap?.classList.contains('err')) validate(k); });
+      inp.addEventListener('change', () => { if (wrap?.classList.contains('err')) validate(k); });
+    });
+
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+      const allOk = requiredFields.map(validate).every(Boolean);
+      if (!allOk) {
+        const firstErr = form.querySelector('.form__field.err input, .form__field.err select') as HTMLElement | null;
+        firstErr?.focus();
+        return;
+      }
+      form.classList.add('success');
+      form.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    });
+  }
+</script>

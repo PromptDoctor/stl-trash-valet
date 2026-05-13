@@ -1,0 +1,1221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>STL Trash Valet — Doorstep Trash Collection for STL Metro Apartment Complexes</title>
+<meta name="description" content="Doorstep trash collection for apartment complexes throughout the St. Louis Metro Area. Generate extra revenue, with zero extra work. Local, reliable, owner-operated." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Manrope:wght@400;500;600;700;800&family=Allura&display=swap" />
+<link rel="icon" type="image/png" href="assets/logo.png" />
+<style>
+  /* ==========  TOKENS  ========== */
+  :root{
+    --ink:        #14201a;
+    --ink-soft:   #3a4a40;
+    --muted:      #6b7a70;
+    --hairline:   #d9d2bf;
+    --hairline-2: #e8e1cd;
+
+    --green:      #1d4a2e;
+    --green-dark: #0f2e1c;
+    --green-deep: #0a2114;
+    --green-mid:  #2d6a44;
+    --green-soft: #eaf0e9;
+
+    --paper:      #faf7ee;
+    --paper-2:    #f5efdf;
+    --paper-3:    #ebe2cc;
+    --cream-ink:  #f6f0df;
+
+    --gold:       #b8893a;
+    --gold-soft:  #e9d8a6;
+
+    --radius:     2px;
+    --radius-md:  6px;
+
+    --shadow-sm:  0 1px 2px rgba(20,32,26,.06);
+    --shadow-md:  0 10px 30px -12px rgba(20,32,26,.18);
+    --shadow-lg:  0 24px 60px -20px rgba(20,32,26,.25);
+
+    --maxw:       1240px;
+    --pad:        clamp(20px, 4vw, 56px);
+
+    --serif:  'DM Serif Display', 'Iowan Old Style', Georgia, serif;
+    --sans:   'Manrope', system-ui, -apple-system, sans-serif;
+    --script: 'Allura', 'Snell Roundhand', cursive;
+  }
+
+  *,*::before,*::after{ box-sizing:border-box; }
+  html{ scroll-behavior:smooth; -webkit-text-size-adjust:100%; }
+  body{
+    margin:0; font-family:var(--sans); color:var(--ink);
+    background:var(--paper);
+    font-size:17px; line-height:1.6; font-weight:450;
+    -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+  }
+  img{ display:block; max-width:100%; }
+  a{ color:inherit; text-decoration:none; }
+  button{ font:inherit; cursor:pointer; border:0; background:none; color:inherit; }
+  input,textarea,select{ font:inherit; color:inherit; }
+  h1,h2,h3,h4{ margin:0; font-family:var(--serif); font-weight:400; letter-spacing:-0.01em; line-height:1.1; }
+  p{ margin:0; }
+  ::selection{ background:var(--green); color:var(--paper); }
+
+  .container{ max-width:var(--maxw); margin:0 auto; padding-inline:var(--pad); }
+  .eyebrow{
+    font-family:var(--sans); font-weight:700; font-size:12px; letter-spacing:.18em;
+    text-transform:uppercase; color:var(--green); display:inline-flex; align-items:center; gap:10px;
+  }
+  .eyebrow::before{ content:""; width:28px; height:1px; background:currentColor; display:inline-block; }
+  .script{ font-family:var(--script); font-weight:400; }
+
+  /* ==========  NAV  ========== */
+  .nav{
+    position:sticky; top:0; z-index:50;
+    background:rgba(250,247,238,.86);
+    backdrop-filter:saturate(140%) blur(10px);
+    -webkit-backdrop-filter:saturate(140%) blur(10px);
+    border-bottom:1px solid transparent;
+    transition:border-color .25s ease, background .25s ease;
+  }
+  .nav.scrolled{ border-bottom-color:var(--hairline-2); }
+  .nav__inner{ display:flex; align-items:center; gap:32px; height:78px; }
+  .brand{ display:flex; align-items:center; gap:12px; }
+  .brand__mark{ width:44px; height:44px; border-radius:50%; }
+  .brand__name{
+    font-family:var(--serif); font-size:20px; color:var(--green-dark);
+    line-height:1; letter-spacing:.01em;
+  }
+  .brand__name small{
+    display:block; font-family:var(--sans); font-size:9.5px; letter-spacing:.24em;
+    color:var(--muted); font-weight:600; text-transform:uppercase; margin-top:4px;
+  }
+  .nav__links{ display:flex; gap:30px; margin-left:auto; }
+  .nav__links a{
+    font-size:14px; font-weight:600; color:var(--ink-soft);
+    padding:8px 0; position:relative; transition:color .2s ease;
+  }
+  .nav__links a:hover{ color:var(--green); }
+  .nav__cta{
+    display:inline-flex; align-items:center; gap:8px;
+    background:var(--paper); color:var(--green-deep);
+    border:1px solid var(--hairline);
+    padding:11px 20px; border-radius:999px; font-weight:700; font-size:14px;
+    transition:background .2s ease, transform .2s ease, border-color .2s ease, color .2s ease;
+  }
+  .nav__cta:hover{ background:var(--paper-2); border-color:var(--green); color:var(--green); transform:translateY(-1px); }
+  .nav__cta svg{ width:14px; height:14px; }
+  @media (max-width:820px){ .nav__links{ display:none; } }
+
+  /* ==========  HERO  ========== */
+  .hero{
+    position:relative; overflow:hidden;
+    padding:80px 0 110px;
+    background:
+      radial-gradient(1200px 600px at 88% -10%, rgba(29,74,46,.06), transparent 60%),
+      radial-gradient(900px 500px at -10% 120%, rgba(184,137,58,.06), transparent 60%),
+      var(--paper);
+  }
+  .hero__grid{
+    display:grid; grid-template-columns: 1.15fr .85fr; gap:64px; align-items:center;
+  }
+  .hero__kicker{ margin-bottom:22px; }
+  .hero h1{
+    font-size: clamp(44px, 6vw, 80px);
+    color:var(--green-deep);
+    margin-bottom:24px;
+  }
+  .hero h1 em{
+    font-style:italic; font-family:var(--serif); color:var(--green);
+  }
+  .hero h1 .scr{
+    font-family:var(--script); font-style:normal; font-weight:400;
+    color:var(--green); font-size:1.08em; line-height:.5;
+    display:inline-block; transform:translateY(.08em);
+  }
+  .hero__lede{
+    font-size:19px; color:var(--ink-soft); max-width:560px;
+    margin-bottom:36px;
+  }
+  .hero__ctas{ display:flex; gap:14px; flex-wrap:wrap; align-items:center; }
+  .btn{
+    display:inline-flex; align-items:center; gap:10px;
+    font-weight:700; font-size:15px;
+    padding:16px 26px; border-radius:999px;
+    transition:transform .2s ease, background .2s ease, color .2s ease, border-color .2s ease;
+    border:1px solid transparent;
+  }
+  .btn--primary{ background:var(--green); color:var(--paper-2); }
+  .btn--primary:hover{ background:var(--green-dark); transform:translateY(-1px); }
+  .btn--ghost{
+    background:transparent; color:var(--green-deep);
+    border-color:var(--hairline);
+  }
+  .btn--ghost:hover{ background:var(--paper-2); border-color:var(--green); }
+  .btn svg{ width:16px; height:16px; }
+  .hero__trust{
+    display:flex; align-items:center; gap:18px; margin-top:40px;
+    font-size:13px; color:var(--muted);
+  }
+  .hero__trust__divider{ width:1px; height:18px; background:var(--hairline); }
+
+  /* Hero badge / visual */
+  .hero__visual{ position:relative; aspect-ratio: 1/1.05; }
+  .hero__badge{
+    position:absolute; inset:0;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .hero__badge img{
+    width:88%; height:auto;
+    filter: drop-shadow(0 30px 60px rgba(15,46,28,.18));
+    animation: floaty 6s ease-in-out infinite;
+  }
+  @keyframes floaty{
+    0%,100%{ transform:translateY(0) rotate(-2deg); }
+    50%{    transform:translateY(-10px) rotate(-1deg); }
+  }
+  .hero__tag{
+    position:absolute; background:var(--paper); padding:14px 18px;
+    border-radius:14px; box-shadow:var(--shadow-md);
+    display:flex; align-items:center; gap:12px;
+    border:1px solid var(--hairline-2);
+  }
+  .hero__tag .dot{
+    width:10px; height:10px; background:var(--green); border-radius:50%;
+    position:relative;
+  }
+  .hero__tag .dot::after{
+    content:""; position:absolute; inset:-6px; border-radius:50%;
+    border:2px solid var(--green); opacity:.5; animation:pulse 2s ease-out infinite;
+  }
+  @keyframes pulse{
+    0%{ transform:scale(.8); opacity:.6; }
+    100%{ transform:scale(1.6); opacity:0; }
+  }
+  .hero__tag strong{ display:block; font-size:13px; color:var(--ink); }
+  .hero__tag span{ font-size:12px; color:var(--muted); }
+  .hero__tag--1{ top:6%; left:-6%; transform:rotate(-3deg); }
+  .hero__tag--2{ bottom:8%; right:-4%; transform:rotate(2deg); }
+  .hero__tag--3{ top:48%; right:-10%; transform:rotate(1deg); }
+
+  @media (max-width:900px){
+    .hero{ padding:48px 0 72px; }
+    .hero__grid{ grid-template-columns:1fr; gap:36px; }
+    .hero__visual{ max-width:420px; margin:0 auto; }
+    .hero__tag--3{ display:none; }
+  }
+
+  /* ==========  STATS STRIP  ========== */
+  .stats{
+    background:var(--green-deep); color:var(--paper-2);
+    padding:48px 0;
+    position:relative; overflow:hidden;
+  }
+  .stats::before{
+    content:""; position:absolute; inset:0;
+    background-image:
+      repeating-linear-gradient(45deg, rgba(245,239,223,.025) 0 2px, transparent 2px 14px);
+    pointer-events:none;
+  }
+  .stats__grid{
+    display:grid; grid-template-columns:repeat(4, 1fr); gap:48px;
+    position:relative;
+  }
+  .stats__item .n{
+    font-family:var(--serif); font-size:54px; line-height:1;
+    color:var(--cream-ink); margin-bottom:8px; letter-spacing:-.02em;
+  }
+  .stats__item .l{ font-size:13px; color:rgba(245,239,223,.7); letter-spacing:.06em; }
+  @media (max-width:760px){ .stats__grid{ grid-template-columns:repeat(2, 1fr); gap:32px 24px; } }
+
+  /* ==========  SECTION HEADERS  ========== */
+  section{ padding:104px 0; }
+  .section-head{ max-width:760px; margin-bottom:64px; }
+  .section-head h2{
+    font-size: clamp(36px, 4.5vw, 56px);
+    color:var(--green-deep); margin:14px 0 18px;
+  }
+  .section-head h2 .scr{
+    font-family:var(--script); color:var(--green); font-size:1.08em;
+    display:inline-block; transform:translateY(.06em);
+  }
+  .section-head p{ color:var(--ink-soft); font-size:18px; max-width:600px; }
+
+  /* ==========  PILLARS (Why STL Trash Valet)  ========== */
+  .pillars{ background:var(--paper-2); }
+  .pillars__grid{
+    display:grid; grid-template-columns:repeat(3, 1fr); gap:24px;
+  }
+  .pillar{
+    background:var(--paper); border:1px solid var(--hairline-2);
+    padding:36px 32px 32px; border-radius:var(--radius-md);
+    transition:transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+    position:relative; overflow:hidden;
+  }
+  .pillar:hover{ transform:translateY(-4px); box-shadow:var(--shadow-md); border-color:var(--green-mid); }
+  .pillar__num{
+    font-family:var(--serif); font-size:13px;
+    color:var(--green); letter-spacing:.18em;
+  }
+  .pillar h3{
+    font-size:30px; color:var(--green-deep); margin:14px 0 14px;
+  }
+  .pillar p{ color:var(--ink-soft); font-size:15.5px; }
+  .pillar__icon{
+    width:48px; height:48px; border-radius:50%;
+    background:var(--green-soft); color:var(--green);
+    display:flex; align-items:center; justify-content:center;
+    margin-bottom:24px;
+  }
+  .pillar__icon svg{ width:22px; height:22px; }
+  @media (max-width:880px){ .pillars__grid{ grid-template-columns:1fr; } }
+
+  /* ==========  HOW IT WORKS  ========== */
+  .how{
+    background:var(--paper);
+    border-top:1px solid var(--hairline-2);
+    border-bottom:1px solid var(--hairline-2);
+  }
+  .how__steps{
+    display:grid; grid-template-columns:repeat(4, 1fr); gap:0;
+    position:relative;
+  }
+  .step{
+    padding:32px 28px 32px 0; position:relative;
+  }
+  .step:not(:last-child)::after{
+    content:""; position:absolute; right:24px; top:48px; bottom:0;
+    width:1px; background:var(--hairline-2);
+  }
+  .step__n{
+    font-family:var(--serif); font-size:48px; line-height:1;
+    color:var(--green); margin-bottom:18px;
+  }
+  .step__n .sub{
+    font-family:var(--sans); font-size:12px; color:var(--muted);
+    letter-spacing:.18em; font-weight:700; margin-left:6px;
+  }
+  .step h3{ font-size:22px; color:var(--green-deep); margin-bottom:8px; }
+  .step p{ color:var(--ink-soft); font-size:15px; }
+  @media (max-width:880px){
+    .how__steps{ grid-template-columns:1fr 1fr; }
+    .step:not(:last-child)::after{ display:none; }
+  }
+  @media (max-width:500px){
+    .how__steps{ grid-template-columns:1fr; }
+  }
+
+  /* ==========  REVENUE CALCULATOR / VALUE  ========== */
+  .revenue{
+    background:linear-gradient(180deg, var(--green-deep) 0%, #0a1c12 100%);
+    color:var(--paper-2);
+    position:relative; overflow:hidden;
+  }
+  .revenue::before{
+    content:""; position:absolute; inset:0;
+    background:
+      radial-gradient(700px 300px at 80% 110%, rgba(184,137,58,.10), transparent 70%),
+      radial-gradient(500px 400px at -10% -10%, rgba(45,106,68,.18), transparent 70%);
+    pointer-events:none;
+  }
+  .revenue__grid{
+    display:grid; grid-template-columns:1.05fr 1fr; gap:80px; align-items:center;
+    position:relative;
+  }
+  .revenue h2{ font-size:clamp(36px, 4.5vw, 54px); color:var(--cream-ink); margin-bottom:24px; }
+  .revenue h2 .scr{ font-family:var(--script); color:var(--gold-soft); font-size:1.1em; transform:translateY(.06em); display:inline-block; }
+  .revenue p{ color:rgba(245,239,223,.72); font-size:17px; margin-bottom:28px; max-width:520px; }
+  .revenue__list{ list-style:none; padding:0; margin:0; }
+  .revenue__list li{
+    display:flex; align-items:flex-start; gap:14px;
+    padding:14px 0; border-top:1px solid rgba(245,239,223,.10);
+    font-size:15.5px; color:rgba(245,239,223,.86);
+  }
+  .revenue__list li:last-child{ border-bottom:1px solid rgba(245,239,223,.10); }
+  .revenue__list .check{
+    flex-shrink:0; width:22px; height:22px; border-radius:50%;
+    background:var(--gold); color:var(--green-deep);
+    display:flex; align-items:center; justify-content:center;
+    margin-top:1px;
+  }
+  .revenue__list .check svg{ width:12px; height:12px; }
+
+  .calc{
+    background:var(--paper); color:var(--ink);
+    padding:36px 36px 40px; border-radius:10px;
+    box-shadow:var(--shadow-lg);
+    border:1px solid var(--hairline-2);
+  }
+  .calc__head{
+    display:flex; align-items:center; justify-content:space-between;
+    padding-bottom:20px; border-bottom:1px solid var(--hairline-2); margin-bottom:24px;
+  }
+  .calc__head h3{ font-size:22px; color:var(--green-deep); }
+  .calc__head span{
+    font-size:11px; letter-spacing:.16em; text-transform:uppercase;
+    color:var(--green); font-weight:700;
+  }
+  .calc__field{ margin-bottom:22px; }
+  .calc__field label{
+    display:flex; justify-content:space-between; align-items:baseline;
+    font-size:13px; color:var(--muted); margin-bottom:10px; font-weight:600;
+    letter-spacing:.04em; text-transform:uppercase;
+  }
+  .calc__field label .val{
+    font-family:var(--serif); font-size:22px; color:var(--green-deep);
+    text-transform:none; letter-spacing:0;
+  }
+  .calc__range{
+    -webkit-appearance:none; appearance:none; width:100%; height:6px;
+    background:var(--hairline-2); border-radius:999px; outline:none;
+  }
+  .calc__range::-webkit-slider-thumb{
+    -webkit-appearance:none; appearance:none;
+    width:22px; height:22px; border-radius:50%;
+    background:var(--green); border:3px solid var(--paper);
+    box-shadow:0 0 0 1px var(--green); cursor:grab;
+  }
+  .calc__range::-moz-range-thumb{
+    width:22px; height:22px; border-radius:50%;
+    background:var(--green); border:3px solid var(--paper);
+    box-shadow:0 0 0 1px var(--green); cursor:grab;
+  }
+  .calc__result{
+    background:var(--paper-2); border-radius:8px;
+    padding:22px 24px; margin-top:8px;
+    display:flex; align-items:center; justify-content:space-between; gap:16px;
+    border:1px dashed var(--green-mid);
+  }
+  .calc__result .lbl{ font-size:13px; color:var(--muted); letter-spacing:.04em; text-transform:uppercase; font-weight:600; }
+  .calc__result .lbl small{ display:block; text-transform:none; letter-spacing:0; font-weight:400; color:var(--ink-soft); margin-top:4px; }
+  .calc__result .amt{
+    font-family:var(--serif); font-size:42px; color:var(--green-deep); line-height:1;
+  }
+  .calc__result .amt small{ font-size:14px; color:var(--muted); font-family:var(--sans); font-weight:600; }
+  .calc__foot{
+    margin-top:18px; font-size:12px; color:var(--muted); text-align:center;
+  }
+  @media (max-width:980px){
+    .revenue__grid{ grid-template-columns:1fr; gap:48px; }
+  }
+
+  /* ==========  SERVICE AREA  ========== */
+  .area{ background:var(--paper-2); }
+  .area__grid{
+    display:grid; grid-template-columns: 1fr 1.1fr; gap:64px; align-items:start;
+  }
+  .area__map{
+    background:var(--paper); border-radius:10px;
+    border:1px solid var(--hairline-2);
+    padding:28px;
+    box-shadow:var(--shadow-sm);
+    position:relative;
+  }
+  .area__map svg{ width:100%; height:auto; display:block; }
+  .area__legend{
+    display:flex; gap:18px; align-items:center;
+    margin-top:18px; padding-top:18px; border-top:1px solid var(--hairline-2);
+    font-size:12px; color:var(--muted); letter-spacing:.06em;
+  }
+  .area__legend .key{ display:flex; align-items:center; gap:8px; }
+  .area__legend .swatch{ width:14px; height:14px; border-radius:3px; }
+
+  .area__cities{ list-style:none; padding:0; margin:24px 0 0; columns:2; column-gap:24px; }
+  .area__cities li{
+    padding:10px 0; border-bottom:1px solid var(--hairline-2);
+    font-size:14.5px; color:var(--ink-soft); display:flex; align-items:center; gap:10px;
+    break-inside:avoid;
+  }
+  .area__cities li::before{
+    content:""; width:6px; height:6px; border-radius:50%; background:var(--green);
+  }
+  @media (max-width:880px){
+    .area__grid{ grid-template-columns:1fr; gap:40px; }
+    .area__cities{ columns:2; }
+  }
+
+  /* ==========  TESTIMONIAL  ========== */
+  .quote{
+    background:var(--paper);
+    border-top:1px solid var(--hairline-2);
+    border-bottom:1px solid var(--hairline-2);
+  }
+  .quote__inner{
+    max-width:880px; margin:0 auto; text-align:center;
+  }
+  .quote__mark{
+    font-family:var(--serif); font-size:90px; color:var(--green); line-height:.6;
+    margin-bottom:6px; opacity:.5;
+  }
+  .quote blockquote{
+    font-family:var(--serif); font-size:clamp(26px, 3vw, 38px);
+    color:var(--green-deep); line-height:1.25; margin:0 0 32px;
+    letter-spacing:-.005em;
+  }
+  .quote__attr{
+    font-size:14px; color:var(--muted); letter-spacing:.04em;
+  }
+  .quote__attr strong{ color:var(--ink); font-weight:700; }
+
+  /* ==========  FAQ  ========== */
+  .faq__wrap{ max-width:880px; margin:0 auto; }
+  .faq__item{
+    border-bottom:1px solid var(--hairline-2);
+  }
+  .faq__item:first-of-type{ border-top:1px solid var(--hairline-2); }
+  .faq__q{
+    width:100%; text-align:left; padding:26px 8px 26px 0;
+    display:flex; justify-content:space-between; align-items:center; gap:24px;
+    font-family:var(--serif); font-size:21px; color:var(--green-deep);
+    transition:color .2s ease;
+  }
+  .faq__q:hover{ color:var(--green); }
+  .faq__plus{
+    flex-shrink:0; width:32px; height:32px; border-radius:50%;
+    border:1px solid var(--hairline); color:var(--green);
+    display:flex; align-items:center; justify-content:center;
+    position:relative; transition:transform .3s ease, background .2s ease;
+  }
+  .faq__plus::before, .faq__plus::after{
+    content:""; position:absolute; background:currentColor;
+    transition:transform .3s ease;
+  }
+  .faq__plus::before{ width:12px; height:1.5px; }
+  .faq__plus::after{ width:1.5px; height:12px; }
+  .faq__item.open .faq__plus{ background:var(--green); color:var(--paper); transform:rotate(180deg); }
+  .faq__item.open .faq__plus::after{ transform:scaleY(0); }
+  .faq__a{
+    max-height:0; overflow:hidden;
+    transition:max-height .35s ease;
+  }
+  .faq__a__inner{
+    padding:0 64px 28px 0; color:var(--ink-soft); font-size:16px;
+  }
+
+  /* ==========  CONTACT  ========== */
+  .contact{
+    background:var(--green-deep);
+    color:var(--paper-2);
+    position:relative; overflow:hidden;
+  }
+  .contact::before{
+    content:""; position:absolute; inset:0;
+    background-image:
+      radial-gradient(900px 500px at 0% 0%, rgba(45,106,68,.25), transparent 60%),
+      radial-gradient(700px 400px at 100% 100%, rgba(184,137,58,.10), transparent 60%);
+    pointer-events:none;
+  }
+  .contact__grid{
+    display:grid; grid-template-columns:1fr 1.2fr; gap:80px; align-items:start;
+    position:relative;
+  }
+  .contact__head h2{ font-size:clamp(36px, 4.5vw, 54px); color:var(--cream-ink); margin-bottom:20px; }
+  .contact__head h2 .scr{ font-family:var(--script); color:var(--gold-soft); font-size:1.08em; transform:translateY(.06em); display:inline-block; }
+  .contact__head p{ font-size:17px; color:rgba(245,239,223,.72); margin-bottom:32px; }
+  .contact__info{ list-style:none; padding:0; margin:0; }
+  .contact__info li{
+    padding:18px 0; border-top:1px solid rgba(245,239,223,.10);
+    display:flex; align-items:center; gap:16px;
+  }
+  .contact__info li:last-child{ border-bottom:1px solid rgba(245,239,223,.10); }
+  .contact__info .ic{
+    width:42px; height:42px; border-radius:50%;
+    background:rgba(245,239,223,.08); color:var(--gold-soft);
+    display:flex; align-items:center; justify-content:center; flex-shrink:0;
+  }
+  .contact__info .lab{ font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:rgba(245,239,223,.55); }
+  .contact__info .val{ font-size:17px; color:var(--paper-2); font-weight:600; }
+  .contact__info a:hover .val{ color:var(--gold-soft); }
+
+  .form{
+    background:var(--paper); color:var(--ink);
+    padding:40px; border-radius:10px;
+    border:1px solid rgba(0,0,0,.05);
+    box-shadow:var(--shadow-lg);
+  }
+  .form h3{
+    font-size:26px; color:var(--green-deep); margin-bottom:6px;
+  }
+  .form__sub{ font-size:14px; color:var(--muted); margin-bottom:28px; }
+  .form__row{ display:grid; grid-template-columns:1fr 1fr; gap:18px; margin-bottom:18px; }
+  .form__field{ display:flex; flex-direction:column; }
+  .form__field label{
+    font-size:12px; letter-spacing:.12em; text-transform:uppercase; font-weight:700;
+    color:var(--muted); margin-bottom:8px;
+  }
+  .form__field label .req{ color:var(--gold); margin-left:2px; }
+  .form__field input, .form__field textarea, .form__field select{
+    background:var(--paper); border:1px solid var(--hairline);
+    border-radius:6px; padding:13px 14px; font-size:15px; color:var(--ink);
+    transition:border-color .2s ease, box-shadow .2s ease, background .2s ease;
+    font-family:var(--sans);
+  }
+  .form__field input:focus, .form__field textarea:focus, .form__field select:focus{
+    outline:none; border-color:var(--green);
+    box-shadow:0 0 0 3px rgba(29,74,46,.12);
+    background:#fff;
+  }
+  .form__field textarea{ min-height:120px; resize:vertical; }
+  .form__field.err input, .form__field.err textarea, .form__field.err select{
+    border-color:#b04a3a; box-shadow:0 0 0 3px rgba(176,74,58,.10);
+  }
+  .form__field .err-msg{
+    display:none; font-size:12px; color:#b04a3a; margin-top:6px; font-weight:600;
+  }
+  .form__field.err .err-msg{ display:block; }
+  .form__submit{
+    width:100%; margin-top:10px;
+    background:var(--green); color:var(--paper-2);
+    padding:18px; border-radius:999px; font-weight:700; font-size:15px;
+    display:flex; align-items:center; justify-content:center; gap:10px;
+    transition:background .2s ease, transform .2s ease;
+  }
+  .form__submit:hover{ background:var(--green-dark); transform:translateY(-1px); }
+  .form__submit svg{ width:16px; height:16px; }
+  .form__legal{
+    margin-top:14px; text-align:center; font-size:12px; color:var(--muted);
+  }
+  .form__success{
+    display:none; text-align:center; padding:24px 0;
+  }
+  .form.success .form__success{ display:block; }
+  .form.success .form__body{ display:none; }
+  .form__success .ic{
+    width:64px; height:64px; border-radius:50%; background:var(--green-soft);
+    color:var(--green); display:flex; align-items:center; justify-content:center;
+    margin:0 auto 18px;
+  }
+  .form__success h4{ font-family:var(--serif); font-size:28px; color:var(--green-deep); margin-bottom:8px; }
+  .form__success p{ color:var(--ink-soft); font-size:15px; max-width:380px; margin:0 auto; }
+
+  @media (max-width:980px){
+    .contact__grid{ grid-template-columns:1fr; gap:40px; }
+    .form{ padding:28px; }
+    .form__row{ grid-template-columns:1fr; gap:14px; }
+  }
+
+  /* ==========  FOOTER  ========== */
+  .footer{
+    background:#08160e; color:rgba(245,239,223,.6);
+    padding:64px 0 36px; font-size:14px;
+  }
+  .footer__grid{
+    display:grid; grid-template-columns: 1.4fr 1fr 1fr 1fr; gap:48px;
+    margin-bottom:48px;
+  }
+  .footer h5{
+    font-family:var(--sans); font-size:12px; letter-spacing:.16em;
+    text-transform:uppercase; color:var(--paper-2); margin-bottom:18px; font-weight:700;
+  }
+  .footer ul{ list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:10px; }
+  .footer a:hover{ color:var(--paper-2); }
+  .footer__brand{ display:flex; align-items:center; gap:12px; margin-bottom:16px; }
+  .footer__brand img{ width:44px; height:44px; border-radius:50%; }
+  .footer__brand span{ font-family:var(--serif); font-size:20px; color:var(--paper-2); }
+  .footer__bot{
+    padding-top:24px; border-top:1px solid rgba(245,239,223,.08);
+    display:flex; justify-content:space-between; flex-wrap:wrap; gap:12px;
+    font-size:12px; color:rgba(245,239,223,.45);
+  }
+  @media (max-width:760px){ .footer__grid{ grid-template-columns:1fr 1fr; gap:36px; } }
+
+  /* ==========  REVEAL  ========== */
+  .reveal{ opacity:0; transform:translateY(14px); transition:opacity .8s ease, transform .8s ease; }
+  .reveal.in{ opacity:1; transform:translateY(0); }
+</style>
+</head>
+<body>
+
+<!-- ============================  NAV  ============================ -->
+<header class="nav" id="nav">
+  <div class="container nav__inner">
+    <a href="#top" class="brand" aria-label="STL Trash Valet, home">
+      <img src="assets/logo.png" alt="" class="brand__mark" />
+      <div class="brand__name">STL Trash Valet<small>Est. 2025 — St. Louis</small></div>
+    </a>
+    <nav class="nav__links" aria-label="Primary">
+      <a href="#service">Service</a>
+      <a href="#revenue">Revenue</a>
+      <a href="#area">Service Area</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+    <a href="#contact" class="nav__cta">
+      Get a Proposal
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+    </a>
+  </div>
+</header>
+
+<main id="top">
+
+<!-- ============================  HERO  ============================ -->
+<section class="hero">
+  <div class="container hero__grid">
+    <div>
+      <div class="hero__kicker eyebrow">Serving properties from O'Fallon, MO to O'Fallon, IL</div>
+      <h1>
+        Doorstep trash, <em>handled.</em><br />
+        <span class="scr">New revenue,</span> zero new work.
+      </h1>
+      <p class="hero__lede">
+        We collect trash from your residents' doors five nights a week and walk it to your on-site dumpsters. You add a popular amenity, generate margin on every door, and never lift a bag.
+      </p>
+      <div class="hero__ctas">
+        <a href="#contact" class="btn btn--primary">
+          Get a Property Proposal
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+        </a>
+        <a href="tel:3147232893" class="btn btn--ghost">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.86 19.86 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.86 19.86 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92Z"/></svg>
+          (314) 723-2893
+        </a>
+      </div>
+      <div class="hero__trust">
+        <span><strong style="color:var(--ink)">5 nights</strong> a week pickup</span>
+        <span class="hero__trust__divider"></span>
+        <span>Owner-operated, local STL</span>
+        <span class="hero__trust__divider"></span>
+        <span>$1M liability insured</span>
+      </div>
+    </div>
+    <div class="hero__visual" aria-hidden="true">
+      <div class="hero__badge">
+        <img src="assets/logo.png" alt="" />
+      </div>
+      <div class="hero__tag hero__tag--3">
+        <div>
+          <strong>4.9 ★</strong>
+          <span>Resident satisfaction</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================  STATS STRIP  ============================ -->
+<section class="stats" style="padding:48px 0;">
+  <div class="container stats__grid">
+    <div class="stats__item">
+      <div class="n">5×</div>
+      <div class="l">Nights per week pickup</div>
+    </div>
+    <div class="stats__item">
+      <div class="n">120+</div>
+      <div class="l">Doors per route, scalable</div>
+    </div>
+    <div class="stats__item">
+      <div class="n">$0</div>
+      <div class="l">Cost or labor to property</div>
+    </div>
+    <div class="stats__item">
+      <div class="n">2 wks</div>
+      <div class="l">From contract to launch</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================  PILLARS  ============================ -->
+<section class="pillars" id="service">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow">Why property managers choose us</span>
+      <h2>An amenity that <span class="scr">pays for itself —</span> and then some.</h2>
+      <p>Three things you care about. Three things we get right. No add-on fees, no resident complaints, no Monday-morning surprises.</p>
+    </div>
+    <div class="pillars__grid">
+      <article class="pillar reveal">
+        <div class="pillar__icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+        </div>
+        <div class="pillar__num">01 — Revenue</div>
+        <h3>Extra revenue, every door.</h3>
+        <p>Charge residents a doorstep-pickup amenity fee — typically $20–$30 per unit per month — and keep a healthy margin. Predictable, recurring NOI lift without raising rent.</p>
+      </article>
+      <article class="pillar reveal">
+        <div class="pillar__icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+        </div>
+        <div class="pillar__num">02 — Easy</div>
+        <h3>Two weeks to launch.</h3>
+        <p>Sign, share resident details, get marketing materials. We onboard your team, distribute branded bins to each unit, and start collecting on day one. Your office doesn't field a single call.</p>
+      </article>
+      <article class="pillar reveal">
+        <div class="pillar__icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+        </div>
+        <div class="pillar__num">03 — Local</div>
+        <h3>Owned & answered in STL.</h3>
+        <p>We're based in St. Louis. When something needs handling, you talk to the same person every time — not a call center. Same-night response on after-hours issues, both Missouri and Illinois sides.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============================  HOW IT WORKS  ============================ -->
+<section class="how">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow">How it works</span>
+      <h2>From signed agreement to <span class="scr">first pickup</span> in two weeks.</h2>
+      <p>A four-step rollout designed so your team does almost nothing. We handle the logistics, the residents, and the bags.</p>
+    </div>
+    <div class="how__steps">
+      <div class="step reveal">
+        <div class="step__n">01<span class="sub">DISCOVERY</span></div>
+        <h3>30-minute walk-through</h3>
+        <p>Tour the property, count doors, confirm dumpster locations and route. You get a custom proposal within 48 hours.</p>
+      </div>
+      <div class="step reveal">
+        <div class="step__n">02<span class="sub">SETUP</span></div>
+        <h3>Branded bins delivered</h3>
+        <p>We drop a 13-gallon, lidded valet bin at every door with a welcome flyer explaining pickup nights and rules.</p>
+      </div>
+      <div class="step reveal">
+        <div class="step__n">03<span class="sub">LAUNCH</span></div>
+        <h3>Five nights a week</h3>
+        <p>Sunday–Thursday between 8 PM and midnight, our team walks every floor, every door. Bags go to the on-site compactor or dumpster.</p>
+      </div>
+      <div class="step reveal">
+        <div class="step__n">04<span class="sub">REPORTING</span></div>
+        <h3>Monthly snapshot</h3>
+        <p>Pickup counts, exception reports, and resident feedback delivered to your inbox. One point of contact, every month.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================  REVENUE / CALC  ============================ -->
+<section class="revenue" id="revenue">
+  <div class="container revenue__grid">
+    <div>
+      <span class="eyebrow" style="color:var(--gold-soft);">The math is the easy part</span>
+      <h2 style="margin-top:14px;">Turn nightly trash into <span class="scr">predictable NOI.</span></h2>
+      <p>A doorstep valet program is the highest-ROI amenity you can add. No capital outlay, no staff to hire, no equipment to maintain. The revenue lift flows straight to NOI.</p>
+      <ul class="revenue__list">
+        <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span> No capital expense — we provide bins, labor, insurance.</li>
+        <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span> Bill residents directly on your existing ledger.</li>
+        <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span> Margin in the $8–$15 per unit per month range.</li>
+        <li><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span> Cleaner property, fewer hallway-trash complaints.</li>
+      </ul>
+    </div>
+
+    <div class="calc">
+      <div class="calc__head">
+        <h3>Estimate your annual lift</h3>
+        <span>Live</span>
+      </div>
+      <div class="calc__field">
+        <label>Number of units <span class="val" id="unitsLabel">120</span></label>
+        <input type="range" min="24" max="500" step="4" value="120" class="calc__range" id="units" />
+      </div>
+      <div class="calc__field">
+        <label>Margin per unit / month <span class="val" id="marginLabel">$10</span></label>
+        <input type="range" min="5" max="18" step="1" value="10" class="calc__range" id="margin" />
+      </div>
+      <div class="calc__result">
+        <div class="lbl">
+          Estimated annual revenue lift
+          <small>Margin × Units × 12 months</small>
+        </div>
+        <div class="amt" id="lift">$14,400<small> /yr</small></div>
+      </div>
+      <p class="calc__foot">Illustrative only. Actual margin depends on resident pricing, take-rate, and contract terms.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================  SERVICE AREA  ============================ -->
+<section class="area" id="area">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow">Service area</span>
+      <h2>The whole STL Metro — <span class="scr">both sides</span> of the river.</h2>
+      <p>Properties from West County to the Metro East. If your property is within the I-270/I-255 loop or close to it, we're already running a route nearby.</p>
+    </div>
+    <div class="area__grid">
+      <div class="area__map" aria-hidden="true">
+        <svg viewBox="0 0 480 360" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- river -->
+          <path d="M240 0 C 235 60, 260 110, 250 170 S 230 260, 245 360" stroke="#9fb1c6" stroke-width="6" stroke-linecap="round" opacity=".55"/>
+          <!-- MO shape (left) -->
+          <path d="M30 60 Q 60 30, 110 40 T 220 50 Q 245 70, 240 130 T 230 250 Q 240 310, 200 330 T 100 320 Q 50 310, 35 250 T 30 60 Z"
+                fill="#eaf0e9" stroke="#1d4a2e" stroke-width="1.2"/>
+          <!-- IL shape (right) -->
+          <path d="M260 50 Q 320 30, 380 50 T 450 110 Q 460 180, 440 240 T 380 320 Q 320 330, 285 310 T 250 240 Q 240 170, 255 110 Z"
+                fill="#f5efdf" stroke="#b8893a" stroke-width="1.2"/>
+
+          <!-- city dots MO -->
+          <g fill="#1d4a2e">
+            <circle cx="200" cy="155" r="5"/>      <!-- downtown -->
+            <circle cx="150" cy="170" r="4"/>      <!-- clayton -->
+            <circle cx="120" cy="140" r="4"/>      <!-- u city -->
+            <circle cx="100" cy="190" r="4"/>      <!-- kirkwood -->
+            <circle cx="80"  cy="120" r="4"/>      <!-- creve coeur -->
+            <circle cx="60"  cy="170" r="4"/>      <!-- chesterfield -->
+            <circle cx="170" cy="100" r="4"/>      <!-- florissant -->
+            <circle cx="130" cy="240" r="4"/>      <!-- south county -->
+            <circle cx="90"  cy="260" r="4"/>      <!-- arnold -->
+          </g>
+          <!-- city dots IL -->
+          <g fill="#b8893a">
+            <circle cx="290" cy="160" r="5"/>      <!-- east stl -->
+            <circle cx="335" cy="140" r="4"/>      <!-- belleville -->
+            <circle cx="370" cy="100" r="4"/>      <!-- edwardsville -->
+            <circle cx="390" cy="160" r="4"/>      <!-- ofallon il -->
+            <circle cx="350" cy="200" r="4"/>      <!-- fairview heights -->
+            <circle cx="330" cy="260" r="4"/>      <!-- columbia -->
+          </g>
+
+          <!-- state labels -->
+          <text x="115" y="92" font-family="Manrope" font-size="13" font-weight="700" fill="#1d4a2e" letter-spacing=".2em">MISSOURI</text>
+          <text x="335" y="92" font-family="Manrope" font-size="13" font-weight="700" fill="#b8893a" letter-spacing=".2em">ILLINOIS</text>
+
+          <!-- pin star at HQ -->
+          <g transform="translate(195 150)">
+            <circle r="11" fill="#1d4a2e"/>
+            <circle r="11" fill="none" stroke="#1d4a2e" stroke-width="1.5" opacity=".3" transform="scale(1.6)"/>
+            <text y="3" text-anchor="middle" font-family="DM Serif Display" font-size="13" fill="#f5efdf">★</text>
+          </g>
+          <text x="215" y="155" font-family="Manrope" font-size="11" font-weight="700" fill="#0f2e1c">HQ · St. Louis</text>
+        </svg>
+        <div class="area__legend">
+          <div class="key"><span class="swatch" style="background:#1d4a2e"></span> Missouri side</div>
+          <div class="key"><span class="swatch" style="background:#b8893a"></span> Illinois side</div>
+          <div class="key" style="margin-left:auto;">★ HQ — St. Louis, MO</div>
+        </div>
+      </div>
+      <div>
+        <h3 style="font-size:26px; color:var(--green-deep); margin-bottom:12px;">Cities we serve</h3>
+        <p style="color:var(--ink-soft);">Selected service areas across the STL Metro. Don't see your property? We're almost certainly close — call us.</p>
+        <ul class="area__cities">
+          <li>St. Louis City</li>
+          <li>Clayton</li>
+          <li>University City</li>
+          <li>Maplewood</li>
+          <li>Kirkwood</li>
+          <li>Webster Groves</li>
+          <li>Chesterfield</li>
+          <li>Creve Coeur</li>
+          <li>Ballwin</li>
+          <li>Florissant</li>
+          <li>Hazelwood</li>
+          <li>Arnold</li>
+          <li>Fenton</li>
+          <li>O'Fallon, MO</li>
+          <li>St. Charles</li>
+          <li>St. Peters</li>
+          <li>Belleville, IL</li>
+          <li>Fairview Heights, IL</li>
+          <li>O'Fallon, IL</li>
+          <li>Edwardsville, IL</li>
+          <li>Collinsville, IL</li>
+          <li>Columbia, IL</li>
+          <li>Granite City, IL</li>
+          <li>Swansea, IL</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================  TESTIMONIAL  ============================ -->
+<section class="quote">
+  <div class="container quote__inner">
+    <div class="quote__mark">"</div>
+    <blockquote>
+      Residents stopped leaving bags in the hallways the week we launched. Our front office got a quiet night back, and the program runs itself.
+    </blockquote>
+    <div class="quote__attr">
+      <strong>Regional Property Manager</strong> · 240-unit community, West County
+    </div>
+  </div>
+</section>
+
+<!-- ============================  FAQ  ============================ -->
+<section class="faq" id="faq">
+  <div class="container">
+    <div class="section-head" style="margin-bottom:48px;">
+      <span class="eyebrow">FAQ</span>
+      <h2>Questions <span class="scr">property managers</span> ask first.</h2>
+      <p>Quick answers. If yours isn't here, the contact form goes straight to the owner.</p>
+    </div>
+    <div class="faq__wrap">
+      <div class="faq__item">
+        <button class="faq__q">What does it cost the property?<span class="faq__plus" aria-hidden="true"></span></button>
+        <div class="faq__a"><div class="faq__a__inner">Nothing. Our model bills residents directly through your existing rent ledger as a mandatory amenity. The property keeps a margin per unit per month and we keep the rest. Zero capital expense, zero labor cost.</div></div>
+      </div>
+      <div class="faq__item">
+        <button class="faq__q">Do I have to make residents use it?<span class="faq__plus" aria-hidden="true"></span></button>
+        <div class="faq__a"><div class="faq__a__inner">Mandatory programs perform best — they spread cost across all units and dramatically reduce hallway-trash issues. We can also structure as an opt-in or move-in amenity. We'll recommend the right structure during your discovery call.</div></div>
+      </div>
+      <div class="faq__item">
+        <button class="faq__q">What nights and times do you pick up?<span class="faq__plus" aria-hidden="true"></span></button>
+        <div class="faq__a"><div class="faq__a__inner">Sunday through Thursday, between 8 PM and midnight. Residents are asked to set their bagged trash outside their door no earlier than 6 PM that evening. We can customize the schedule for properties with quiet-hours policies.</div></div>
+      </div>
+      <div class="faq__item">
+        <button class="faq__q">Where does the trash actually go?<span class="faq__plus" aria-hidden="true"></span></button>
+        <div class="faq__a"><div class="faq__a__inner">Straight to your on-site dumpsters or compactor. We don't haul off-site — your existing waste hauler handles disposal as normal. We're an amenity service, not a hauling service.</div></div>
+      </div>
+      <div class="faq__item">
+        <button class="faq__q">What about recycling and bulk items?<span class="faq__plus" aria-hidden="true"></span></button>
+        <div class="faq__a"><div class="faq__a__inner">Recycling pickup runs once a week on a day we'll set with you. Bulk items (boxes, furniture) are handled by appointment with a small added fee billed to the resident — never to the property.</div></div>
+      </div>
+      <div class="faq__item">
+        <button class="faq__q">Are you insured? Bonded?<span class="faq__plus" aria-hidden="true"></span></button>
+        <div class="faq__a"><div class="faq__a__inner">Yes. $1M general liability, workers' comp, and commercial auto on every vehicle. On request, we'll add your property and ownership group as a named party on our policy — meaning you're directly covered by our insurance for any incident involving our crew, at no cost to you. Certificates of insurance are provided within 24 hours.</div></div>
+      </div>
+      <div class="faq__item">
+        <button class="faq__q">How long is the contract?<span class="faq__plus" aria-hidden="true"></span></button>
+        <div class="faq__a"><div class="faq__a__inner">Standard agreements are 12 months with auto-renewal. There's a 60-day out clause if performance falls short of agreed service standards — so you're never locked in if we don't deliver.</div></div>
+      </div>
+      <div class="faq__item">
+        <button class="faq__q">Do you cover the Illinois side of the Metro?<span class="faq__plus" aria-hidden="true"></span></button>
+        <div class="faq__a"><div class="faq__a__inner">Yes — Belleville, O'Fallon, Edwardsville, Fairview Heights, Collinsville, Columbia, Granite City, and surrounding communities. We're a true bi-state operator, not a Missouri-only outfit.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================  CONTACT  ============================ -->
+<section class="contact" id="contact">
+  <div class="container contact__grid">
+    <div class="contact__head">
+      <span class="eyebrow" style="color:var(--gold-soft);">Get a proposal</span>
+      <h2 style="margin-top:14px;">Let's run the <span class="scr">numbers</span> for your property.</h2>
+      <p>Tell us a little about the community and we'll send a custom revenue estimate within one business day. No pressure, no boilerplate.</p>
+
+      <ul class="contact__info">
+        <li>
+          <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.86 19.86 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.86 19.86 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92Z"/></svg></span>
+          <a href="tel:3147232893">
+            <div class="lab">Call us direct</div>
+            <div class="val">(314) 723-2893</div>
+          </a>
+        </li>
+        <li>
+          <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg></span>
+          <a href="mailto:sales@stltrashvalet.com">
+            <div class="lab">Email sales</div>
+            <div class="val">sales@stltrashvalet.com</div>
+          </a>
+        </li>
+        <li>
+          <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></span>
+          <div>
+            <div class="lab">Office hours</div>
+            <div class="val">Mon–Fri · 8a – 6p CT</div>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <form class="form" id="contactForm" novalidate>
+      <div class="form__body">
+        <h3>Request a property proposal</h3>
+        <p class="form__sub">Takes about 60 seconds. Owner-reviewed within one business day.</p>
+
+        <div class="form__row">
+          <div class="form__field" data-field="name">
+            <label>Your name <span class="req">*</span></label>
+            <input type="text" name="name" autocomplete="name" />
+            <div class="err-msg">Please enter your name.</div>
+          </div>
+          <div class="form__field" data-field="role">
+            <label>Role</label>
+            <select name="role">
+              <option value="">Select…</option>
+              <option>Property Manager</option>
+              <option>Regional Manager</option>
+              <option>Owner / Asset Manager</option>
+              <option>Maintenance Director</option>
+              <option>Other</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form__row">
+          <div class="form__field" data-field="email">
+            <label>Work email <span class="req">*</span></label>
+            <input type="email" name="email" autocomplete="email" />
+            <div class="err-msg">Please enter a valid email.</div>
+          </div>
+          <div class="form__field" data-field="phone">
+            <label>Phone</label>
+            <input type="tel" name="phone" autocomplete="tel" placeholder="(314) 555-0123" />
+          </div>
+        </div>
+
+        <div class="form__row">
+          <div class="form__field" data-field="property">
+            <label>Property name <span class="req">*</span></label>
+            <input type="text" name="property" />
+            <div class="err-msg">Tell us the property name.</div>
+          </div>
+          <div class="form__field" data-field="units">
+            <label>Unit count <span class="req">*</span></label>
+            <select name="units">
+              <option value="">Select…</option>
+              <option>Under 50 units</option>
+              <option>50 – 100 units</option>
+              <option>100 – 200 units</option>
+              <option>200 – 350 units</option>
+              <option>350+ units</option>
+            </select>
+            <div class="err-msg">Please pick a range.</div>
+          </div>
+        </div>
+
+        <div class="form__field" style="margin-bottom:8px;" data-field="message">
+          <label>Anything we should know? <span style="text-transform:none; letter-spacing:0; color:var(--muted); font-weight:500;">(optional)</span></label>
+          <textarea name="message" placeholder="Existing valet contract, timeline, special access notes, etc."></textarea>
+        </div>
+
+        <button type="submit" class="form__submit">
+          Send my proposal request
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+        </button>
+        <p class="form__legal">We'll never share your details. One follow-up email per request, max.</p>
+      </div>
+
+      <div class="form__success" role="status" aria-live="polite">
+        <div class="ic">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+        </div>
+        <h4>Thanks — we've got it.</h4>
+        <p>Your request is in. We'll review and send a tailored proposal within one business day. Need to talk sooner? Call <strong>(314) 723-2893</strong>.</p>
+      </div>
+    </form>
+  </div>
+</section>
+
+</main>
+
+<!-- ============================  FOOTER  ============================ -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer__grid">
+      <div>
+        <div class="footer__brand">
+          <img src="assets/logo.png" alt="" />
+          <span>STL Trash Valet</span>
+        </div>
+        <p style="max-width:340px;">Doorstep trash collection for apartment communities across the St. Louis Metro Area. Owner-operated. Locally answered. Established 2025.</p>
+      </div>
+      <div>
+        <h5>Service</h5>
+        <ul>
+          <li><a href="#service">How it works</a></li>
+          <li><a href="#revenue">Revenue model</a></li>
+          <li><a href="#area">Service area</a></li>
+          <li><a href="#faq">FAQ</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Contact</h5>
+        <ul>
+          <li><a href="tel:3147232893">(314) 723-2893</a></li>
+          <li><a href="mailto:sales@stltrashvalet.com">sales@stltrashvalet.com</a></li>
+          <li><a href="#contact">Request a proposal</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Coverage</h5>
+        <ul>
+          <li>St. Louis County</li>
+          <li>St. Charles County</li>
+          <li>Madison County, IL</li>
+          <li>St. Clair County, IL</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer__bot">
+      <span>© 2025 STL Trash Valet, LLC. All rights reserved.</span>
+      <span>Owner-operated · Licensed & insured · Serving STL bi-state</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ============================  INTERACTIONS  ============================ */
+(() => {
+  /* nav scrolled state */
+  const nav = document.getElementById('nav');
+  const onScroll = () => { nav.classList.toggle('scrolled', window.scrollY > 8); };
+  document.addEventListener('scroll', onScroll, { passive:true });
+  onScroll();
+
+  /* reveal on scroll */
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  /* FAQ accordion */
+  document.querySelectorAll('.faq__item').forEach(item => {
+    const btn = item.querySelector('.faq__q');
+    const a   = item.querySelector('.faq__a');
+    btn.addEventListener('click', () => {
+      const open = item.classList.toggle('open');
+      if(open){
+        a.style.maxHeight = a.scrollHeight + 'px';
+      } else {
+        a.style.maxHeight = '0px';
+      }
+    });
+  });
+
+  /* Revenue calculator */
+  const units  = document.getElementById('units');
+  const margin = document.getElementById('margin');
+  const uL = document.getElementById('unitsLabel');
+  const mL = document.getElementById('marginLabel');
+  const liftEl = document.getElementById('lift');
+  const fmt = (n) => '$' + n.toLocaleString();
+  const recalc = () => {
+    const u = parseInt(units.value,10);
+    const m = parseInt(margin.value,10);
+    uL.textContent = u;
+    mL.textContent = '$' + m;
+    const lift = u * m * 12;
+    liftEl.innerHTML = fmt(lift) + '<small> /yr</small>';
+  };
+  units.addEventListener('input', recalc);
+  margin.addEventListener('input', recalc);
+  recalc();
+
+  /* Contact form validation */
+  const form = document.getElementById('contactForm');
+  const fields = ['name','email','property','units'];
+  const validate = (key) => {
+    const wrap = form.querySelector(`[data-field="${key}"]`);
+    const inp = wrap.querySelector('input, select, textarea');
+    let ok = inp.value.trim().length > 0;
+    if(key === 'email') ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(inp.value.trim());
+    wrap.classList.toggle('err', !ok);
+    return ok;
+  };
+  fields.forEach(k => {
+    const wrap = form.querySelector(`[data-field="${k}"]`);
+    const inp = wrap.querySelector('input, select, textarea');
+    inp.addEventListener('blur', () => validate(k));
+    inp.addEventListener('input', () => { if(wrap.classList.contains('err')) validate(k); });
+    inp.addEventListener('change', () => { if(wrap.classList.contains('err')) validate(k); });
+  });
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const allOk = fields.map(validate).every(Boolean);
+    if(!allOk){
+      const firstErr = form.querySelector('.form__field.err input, .form__field.err select');
+      firstErr && firstErr.focus();
+      return;
+    }
+    form.classList.add('success');
+    form.scrollIntoView({ behavior:'smooth', block:'center' });
+  });
+})();
+</script>
+
+</body>
+</html>

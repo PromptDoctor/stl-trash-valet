@@ -1,0 +1,27 @@
+<header class="nav" id="nav">
+  <div class="container nav__inner">
+    <a href="#top" class="brand" aria-label="STL Trash Valet, home">
+      <img src="/assets/logo.png" alt="STL Trash Valet logo" class="brand__mark" />
+      <div class="brand__name">STL Trash Valet<small>Est. 2025 — St. Louis</small></div>
+    </a>
+    <nav class="nav__links" aria-label="Primary">
+      <a href="#service">Service</a>
+      <a href="#revenue">Revenue</a>
+      <a href="#area">Service Area</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+    <a href="#contact" class="nav__cta">
+      Get a Proposal
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+    </a>
+  </div>
+</header>
+
+<script>
+  const nav = document.getElementById('nav');
+  if (nav) {
+    const onScroll = () => { nav.classList.toggle('scrolled', window.scrollY > 8); };
+    document.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  }
+</script>

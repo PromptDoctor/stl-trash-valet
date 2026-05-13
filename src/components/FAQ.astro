@@ -1,0 +1,54 @@
+<section class="faq" id="faq">
+  <div class="container">
+    <div class="section-head" style="margin-bottom:48px;">
+      <span class="eyebrow">FAQ</span>
+      <h2>Questions <span class="scr">property managers</span> ask first.</h2>
+      <p>Quick answers. If yours isn't here, the contact form goes straight to the owner.</p>
+    </div>
+    <div class="faq__wrap">
+      <div class="faq__item">
+        <button class="faq__q">What does it cost the property?<span class="faq__plus" aria-hidden="true"></span></button>
+        <div class="faq__a"><div class="faq__a__inner">Nothing. Our model bills residents directly through your existing rent ledger as a mandatory amenity. The property keeps a margin per unit per month and we keep the rest. Zero capital expense, zero labor cost.</div></div>
+      </div>
+      <div class="faq__item">
+        <button class="faq__q">Do I have to make residents use it?<span class="faq__plus" aria-hidden="true"></span></button>
+        <div class="faq__a"><div class="faq__a__inner">Mandatory programs perform best — they spread cost across all units and dramatically reduce hallway-trash issues. We can also structure as an opt-in or move-in amenity. We'll recommend the right structure during your discovery call.</div></div>
+      </div>
+      <div class="faq__item">
+        <button class="faq__q">What nights and times do you pick up?<span class="faq__plus" aria-hidden="true"></span></button>
+        <div class="faq__a"><div class="faq__a__inner">Sunday through Thursday, between 8 PM and midnight. Residents are asked to set their bagged trash outside their door no earlier than 6 PM that evening. We can customize the schedule for properties with quiet-hours policies.</div></div>
+      </div>
+      <div class="faq__item">
+        <button class="faq__q">Where does the trash actually go?<span class="faq__plus" aria-hidden="true"></span></button>
+        <div class="faq__a"><div class="faq__a__inner">Straight to your on-site dumpsters or compactor. We don't haul off-site — your existing waste hauler handles disposal as normal. We're an amenity service, not a hauling service.</div></div>
+      </div>
+      <div class="faq__item">
+        <button class="faq__q">What about recycling and bulk items?<span class="faq__plus" aria-hidden="true"></span></button>
+        <div class="faq__a"><div class="faq__a__inner">Recycling pickup runs once a week on a day we'll set with you. Bulk items (boxes, furniture) are handled by appointment with a small added fee billed to the resident — never to the property.</div></div>
+      </div>
+      <div class="faq__item">
+        <button class="faq__q">Are you insured? Bonded?<span class="faq__plus" aria-hidden="true"></span></button>
+        <div class="faq__a"><div class="faq__a__inner">Yes. $1M general liability, workers' comp, and commercial auto on every vehicle. On request, we'll add your property and ownership group as a named party on our policy — meaning you're directly covered by our insurance for any incident involving our crew, at no cost to you. Certificates of insurance are provided within 24 hours.</div></div>
+      </div>
+      <div class="faq__item">
+        <button class="faq__q">How long is the contract?<span class="faq__plus" aria-hidden="true"></span></button>
+        <div class="faq__a"><div class="faq__a__inner">Standard agreements are 12 months with auto-renewal. There's a 60-day out clause if performance falls short of agreed service standards — so you're never locked in if we don't deliver.</div></div>
+      </div>
+      <div class="faq__item">
+        <button class="faq__q">Do you cover the Illinois side of the Metro?<span class="faq__plus" aria-hidden="true"></span></button>
+        <div class="faq__a"><div class="faq__a__inner">Yes — Belleville, O'Fallon, Edwardsville, Fairview Heights, Collinsville, Columbia, Granite City, and surrounding communities. We're a true bi-state operator, not a Missouri-only outfit.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll('.faq__item').forEach(item => {
+    const btn = item.querySelector('.faq__q');
+    const a = item.querySelector('.faq__a') as HTMLElement | null;
+    btn?.addEventListener('click', () => {
+      const open = item.classList.toggle('open');
+      if (a) a.style.maxHeight = open ? a.scrollHeight + 'px' : '0px';
+    });
+  });
+</script>
