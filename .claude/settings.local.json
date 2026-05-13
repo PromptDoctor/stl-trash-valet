@@ -5,7 +5,9 @@
       "Read(//c/Users/ppenn/Projects/stl_trash_valet/STL Trash Valet/src/components/**)",
       "Bash(npm ls *)",
       "Bash(npm install *)",
-      "Bash(npm audit *)"
+      "Bash(npm audit *)",
+      "Bash(Get-ChildItem -Recurse \"c:\\\\Users\\\\ppenn\\\\Projects\\\\stl_trash_valet\\\\stl-trash-valet\\\\public\")",
+      "Bash(Select-Object FullName)"
     ]
   }
 }
