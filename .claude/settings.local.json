@@ -2,7 +2,10 @@
   "permissions": {
     "allow": [
       "PowerShell(Get-ChildItem -Recurse \"c:\\\\Users\\\\ppenn\\\\Projects\\\\stl_trash_valet\\\\STL Trash Valet\" | Where-Object { !$_.PSIsContainer -and $_.Extension -ne '.html' } | Select-Object -ExpandProperty FullName | Sort-Object)",
-      "Read(//c/Users/ppenn/Projects/stl_trash_valet/STL Trash Valet/src/components/**)"
+      "Read(//c/Users/ppenn/Projects/stl_trash_valet/STL Trash Valet/src/components/**)",
+      "Bash(npm ls *)",
+      "Bash(npm install *)",
+      "Bash(npm audit *)"
     ]
   }
 }
